@@ -1,26 +1,54 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './App.css';
-import {IState} from "./interfaces/state.interface";
-import List from "./components/List";
-import AddToList from "./components/AddToList";
-
+import {Router, Route} from 'react-router';
+import {createBrowserHistory} from 'history';
+import User from "./components/User";
+import Home from "./components/Home";
+import Root from "./components/Root";
 function App() {
-  const [people, setPeople] = useState<IState['people']>([
-      {
-          name: 'LeBron James',
-          url: "data:image/jpeg;base64,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",
-          age: 36,
-          note: "Some note"
-      }
-  ]);
+    // const [user, setUser] = useState<IUser['user']>(
+    //     {
+    //         name: "Andy",
+    //         age: 24,
+    //         hobbies: ["Baseball"]
+    //     }
+    // );
+    // const [homeLink, setHomeLink] = useState<string>('Home');
+    //
+    // const onGreet = (): void => {
+    //     alert("Hello!")
+    // }
+    // const onChangeLinkName = (newName: string): void => {
+    //     setHomeLink(newName);
+    // }
 
-   return (
-    <div className="App">
-      <h1>People invited to my Party</h1>
-        <List people={people}/>
-        <AddToList people={people} setPeople={setPeople}/>
-    </div>
-  );
+   // return (
+   //  <div className="container">
+   //      <div className="row">
+   //          <div className="col-xs-10 col-xs-offset-1">
+   //              <Header homeLink={homeLink} />
+   //          </div>
+   //      </div>
+   //      <div className="row">
+   //          <div className="col-xs-10 col-xs-offset-1">
+   //              <Home
+   //                  user={user}
+   //                  greet={onGreet}
+   //                  changeLink={onChangeLinkName}
+   //                  initialLinkName={homeLink}
+   //              />
+   //          </div>
+   //      </div>
+   //  </div>
+   // );
+    return (
+        <Router history={createBrowserHistory()}>
+            <Route path="/" component={Root}>
+                <Route path="user" component={User}/>
+                <Route path="home" component={Home}/>
+            </Route>
+        </Router>
+    );
 }
 
 export default App;
